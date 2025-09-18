@@ -6,10 +6,8 @@ package com.mycompany.projetoaviao.model;
 
 /**
  *
- * @author keity
+ * @author manoeltelesps
  */
-public class Model {
-    
-    
+public class StatusBilhete {
     
 }
