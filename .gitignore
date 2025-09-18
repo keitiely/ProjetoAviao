@@ -1,0 +1,40 @@
+# === Java ===
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# === Maven ===
+target/
+dependency-reduced-pom.xml
+
+# === NetBeans ===
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nbactions-*.xml
+
+# === IDEs (opcional) ===
+.idea/
+*.iml
+.project
+.classpath
+
+# === SO ===
+.DS_Store
+Thumbs.db
+
+# === Bancos locais (SQL clients / testes) ===
+*.db
+*.sqlite
+*.sqlite3
+*.h2.db
+*.mv.db
+*.trace.db
+
+# === Dumps grandes (opcional) ===
+# descomente se NAO quiser versionar dumps .sql
+# *.sql
