@@ -8,6 +8,6 @@ package com.mycompany.projetoaviao.model;
  *
  * @author manoeltelesps
  */
-public class StatusBilhete {
-    
+public enum StatusBilhete {
+    RESERVADO, PAGO, CANCELADO, EMBARCADO
 }

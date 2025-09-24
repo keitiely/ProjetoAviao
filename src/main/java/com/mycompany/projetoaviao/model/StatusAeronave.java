@@ -8,6 +8,6 @@ package com.mycompany.projetoaviao.model;
  *
  * @author manoeltelesps
  */
-public class StatusAeronave {
-    
+public enum StatusAeronave {
+    ATIVA, MANUTENCAO, INATIVA
 }
