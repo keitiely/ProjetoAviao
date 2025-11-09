@@ -19,6 +19,12 @@ public class Funcionario extends Pessoa {
         this.cargo = cargo;
         this.idAeroporto = idAeroporto;
     }
+    
+     public Funcionario(){
+         super();
+        // Construtor vazio, necessário para o Controller
+        // e para o DAO poderem criar o objeto.
+    }
 
     /**
      * @return the matricula
@@ -58,9 +64,14 @@ public class Funcionario extends Pessoa {
     /**
      * @param aeroporto the aeroporto to set
      */
-    public void setAeroporto(int idAeroporto) {
+    public void setIdAeroporto(int idAeroporto) {
         this.idAeroporto = idAeroporto;
     }
     
-    
+    @Override
+    public String toString() {
+        // Pega o nome/doc da classe Pessoa
+        return "Funcionario [ID=" + getIdPessoa() + ", Nome=" + getNome() + 
+               ", Matricula=" + matricula + ", Cargo=" + cargo + "]";
+    }
 }
