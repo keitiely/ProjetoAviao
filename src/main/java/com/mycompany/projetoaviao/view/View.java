@@ -8,6 +8,24 @@ package com.mycompany.projetoaviao.view;
  *
  * @author keity
  */
+
+import java.sql.Connection;
+import com.mycompany.projetoaviao.util.Conexao;
+
 public class View {
-    
+    public static void main(String[] args) {
+       try {
+            Connection conn = Conexao.getConnection();
+
+            if (conn != null) {
+                System.out.println("✅ Conexão estabelecida com sucesso!");
+                conn.close();
+            } else {
+                System.out.println("❌ Falha ao conectar.");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
