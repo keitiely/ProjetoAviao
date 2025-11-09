@@ -11,9 +11,11 @@ package com.mycompany.projetoaviao.view;
 
 import java.sql.Connection;
 import com.mycompany.projetoaviao.util.Conexao;
+import com.mycompany.projetoaviao.dao.PessoaDAO;
+import com.mycompany.projetoaviao.model.Pessoa;
 
 public class View {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
        try {
             Connection conn = Conexao.getConnection();
 
@@ -27,5 +29,11 @@ public class View {
         } catch (Exception e) {
             e.printStackTrace();
         }
+       
+       PessoaDAO dao = new PessoaDAO();
+       Pessoa p = new Pessoa(1, "Kenay", "9238282", "Santa Maria", "619121923") {};
+       
+       dao.inserir(p);
+       
     }
 }

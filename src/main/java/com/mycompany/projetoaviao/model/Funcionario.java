@@ -11,13 +11,13 @@ package com.mycompany.projetoaviao.model;
 public class Funcionario extends Pessoa {
     private String matricula;
     private String cargo;
-    private Aeroporto aeroporto;
+    private int idAeroporto;
     
-    public Funcionario(int idPessoa, String nome, String documento, String endereco, String telefone, String matricula, String cargo, Aeroporto aeroporto) {
+    public Funcionario(int idPessoa, String nome, String documento, String endereco, String telefone, String matricula, String cargo, int idAeroporto) {
         super(idPessoa, nome, documento, endereco, telefone);
         this.matricula = matricula;
         this.cargo = cargo;
-        this.aeroporto = aeroporto;
+        this.idAeroporto = idAeroporto;
     }
 
     /**
@@ -51,15 +51,15 @@ public class Funcionario extends Pessoa {
     /**
      * @return the aeroporto
      */
-    public Aeroporto getAeroporto() {
-        return aeroporto;
+    public int getIdAeroporto() {
+        return idAeroporto;
     }
 
     /**
      * @param aeroporto the aeroporto to set
      */
-    public void setAeroporto(Aeroporto aeroporto) {
-        this.aeroporto = aeroporto;
+    public void setAeroporto(int idAeroporto) {
+        this.idAeroporto = idAeroporto;
     }
     
     

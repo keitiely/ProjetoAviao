@@ -22,6 +22,8 @@ public class Aeroporto {
         this.cidade = cidade;
         this.pais = pais;
     }
+    
+    
 
     /**
      * @return the idAeroporto
