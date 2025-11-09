@@ -82,13 +82,4 @@ public class Voo {
         this.idRota = idRota;
     }
     
-    
-    @Override
-    public String toString() {
-        return "Voo [ID=" + idVoo + 
-               ", Duração=" + duracaoPrevista + 
-               ", ID Aeronave=" + idAeronave + 
-               ", ID Rota=" + idRota + "]";
-    }
-    
 }

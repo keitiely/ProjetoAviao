@@ -67,11 +67,4 @@ public class Funcionario extends Pessoa {
     public void setIdAeroporto(int idAeroporto) {
         this.idAeroporto = idAeroporto;
     }
-    
-    @Override
-    public String toString() {
-        // Pega o nome/doc da classe Pessoa
-        return "Funcionario [ID=" + getIdPessoa() + ", Nome=" + getNome() + 
-               ", Matricula=" + matricula + ", Cargo=" + cargo + "]";
-    }
 }

@@ -50,10 +50,4 @@ public class Passageiro extends Pessoa {
     public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-    
-    @Override
-    public String toString() {
-        return "Passageiro [ID=" + getIdPessoa() + ", Nome=" + getNome() + 
-               ", Nacionalidade=" + nacionalidade + "]";
-    }
 }
