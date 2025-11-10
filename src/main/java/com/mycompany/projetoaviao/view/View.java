@@ -75,11 +75,9 @@ public class View {
         String telefone = scan.nextLine();
         System.out.print("Nacionalidade: ");
         String nacionalidade = scan.nextLine();
-        System.out.print("Data de Nascimento (dd/MM/yyyy): ");
-        String dataNascimento = scan.nextLine();
 
         String resp = this.controller.cadastrarPassageiro(
-                nome, documento, endereco, telefone, nacionalidade, dataNascimento
+                nome, documento, endereco, telefone, nacionalidade
         );
         System.out.println(resp);
     }
@@ -93,7 +91,7 @@ public class View {
         System.out.println("Nome | Documento | Telefone | Nacionalidade | Data Nasc.");
         for (Passageiro p : lista) {
             System.out.println(p.getNome() + " | " + p.getDocumento() + " | " + p.getTelefone()
-                    + " | " + p.getNacionalidade() + " | " + p.getDataNascimento());
+                    + " | " + p.getNacionalidade());
         }
     }
     

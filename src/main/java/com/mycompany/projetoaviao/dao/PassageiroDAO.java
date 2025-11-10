@@ -24,13 +24,12 @@ public class PassageiroDAO {
         int idPessoa = pessoaDAO.inserir(pessoa);
         if (idPessoa <= 0) throw new Exception("Falha ao inserir pessoa");
 
-        String sql = "INSERT INTO Passageiro (nacionalidade, dataNascimento, idPassageiro) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Passageiro (nacionalidade, idPassageiro) VALUES (?, ?)";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, passageiro.getNacionalidade());
-            stmt.setDate(2, Date.valueOf(passageiro.getDataNascimento()));
-            stmt.setInt(3, idPessoa);
+            stmt.setInt(2, idPessoa);
             stmt.executeUpdate();
         }
         return idPessoa;
@@ -38,7 +37,7 @@ public class PassageiroDAO {
 
     public List<Passageiro> listar() throws Exception {
         List<Passageiro> list = new ArrayList<>();
-        String sql = "SELECT p.idPassageiro, p.nacionalidade, p.dataNascimento FROM Passageiro p";
+        String sql = "SELECT * from Passageiro join Pessoa on Passageiro.idPassageiro = Pessoa.idPessoa";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -50,8 +49,7 @@ public class PassageiroDAO {
                         rs.getString("documento"),
                         rs.getString("endereco"),
                         rs.getString("telefone"),
-                        rs.getString("nacionalidade"),
-                        rs.getString("dataNascimento")
+                        rs.getString("nacionalidade")
                 );
                 list.add(pa);
             }

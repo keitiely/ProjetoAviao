@@ -10,12 +10,10 @@ package com.mycompany.projetoaviao.model;
  */
 public class Passageiro extends Pessoa {
     private String nacionalidade;
-    private String dataNascimento;
     
-    public Passageiro(int idPessoa, String nome, String documento, String endereco, String telefone, String nacionalidade, String dataNascimento) {
+    public Passageiro(int idPessoa, String nome, String documento, String endereco, String telefone, String nacionalidade) {
         super(idPessoa, nome, documento, endereco, telefone);
         this.nacionalidade = nacionalidade;
-        this.dataNascimento = dataNascimento;
     }
 
     /**
@@ -32,17 +30,4 @@ public class Passageiro extends Pessoa {
         this.nacionalidade = nacionalidade;
     }
 
-    /**
-     * @return the dataNascimento
-     */
-    public String getDataNascimento() {
-        return dataNascimento;
-    }
-
-    /**
-     * @param dataNascimento the dataNascimento to set
-     */
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
 }

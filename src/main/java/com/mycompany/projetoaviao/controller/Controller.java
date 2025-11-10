@@ -151,22 +151,17 @@ public class Controller {
     
     
     public String cadastrarPassageiro(String nome, String documento, String endereco, String telefone,
-                                      String nacionalidade, String dataNascimentoStr) {
+                                      String nacionalidade) {
         try {
             // Validação
-            if (nome.isEmpty() || documento.isEmpty() || dataNascimentoStr.isEmpty()) {
+            if (nome.isEmpty() || documento.isEmpty()) {
                 return "Erro: Nome, documento e data de nascimento são obrigatórios.";
             }
-            // Crie o "tradutor" para o formato DD/MM/YYYY
-            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            // Usa o "tradutor" para converter a String (validação)
-             LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatador);
 
              // Criando o model Passageiro conforme construtor existente (idPessoa = 0)
             Passageiro passageiro = new Passageiro(
                 0, nome, documento, endereco, telefone,
-                nacionalidade, dataNascimentoStr
+                nacionalidade
             );
 
             // Chamada ao DAO (que insere Passageiro)
