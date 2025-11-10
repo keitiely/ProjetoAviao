@@ -8,12 +8,15 @@ import com.mycompany.projetoaviao.dao.FuncionarioDAO;
 import com.mycompany.projetoaviao.dao.PassageiroDAO;
 import com.mycompany.projetoaviao.dao.PessoaDAO;
 import com.mycompany.projetoaviao.dao.VooDAO;
+import com.mycompany.projetoaviao.dao.BilheteDAO;
 
 //jimportando os models
 import com.mycompany.projetoaviao.model.Funcionario;
 import com.mycompany.projetoaviao.model.Passageiro;
 import com.mycompany.projetoaviao.model.Pessoa;
 import com.mycompany.projetoaviao.model.Voo;
+import com.mycompany.projetoaviao.model.Bilhete;
+import com.mycompany.projetoaviao.model.StatusBilhete;
 
 //importando os utilitarios 
 import java.time.LocalDate;
@@ -32,15 +35,96 @@ public class Controller {
     private PassageiroDAO passageiroDao;
     private PessoaDAO pessoaDao;
     private VooDAO vooDao;
-    
+    private BilheteDAO BilheteDAO;
     
     public Controller(){
         this.funcionarioDao = new FuncionarioDAO();
         this.passageiroDao = new PassageiroDAO();
         this.pessoaDao = new PessoaDAO();
         this.vooDao = new VooDAO(); 
+        this.BilheteDAO = new BilheteDAO();
     }
 
+    //Bilhete
+    public String criarBilhete(String idPassageiroStr, String idVooStr, String lugar, String statusStr) {
+    try {
+        // Validação
+        if (idPassageiroStr.isEmpty() || idVooStr.isEmpty() || lugar.isEmpty() || statusStr.isEmpty()) {
+            return "Erro: Todos os campos são obrigatórios!";
+        }
+
+        // Conversão
+        int idPassageiro = Integer.parseInt(idPassageiroStr);
+        int idVoo = Integer.parseInt(idVooStr);
+        
+        // Validação do status
+        StatusBilhete status;
+        try {
+            status = StatusBilhete.valueOf(statusStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return "Erro: Status inválido. Use: RESERVADO, PAGO, CANCELADO ou EMBARCADO";
+        }
+
+        // Buscar passageiro e voo
+        Passageiro passageiro = buscarPassageiroPorId(idPassageiro);
+        if (passageiro == null) {
+            return "Erro: Passageiro não encontrado!";
+        }
+
+        Voo voo = buscarVooPorId(idVoo);
+        if (voo == null) {
+            return "Erro: Voo não encontrado!";
+        }
+
+        // Criar bilhete (idBilhete = 0 será gerado pelo banco)
+        Bilhete bilhete = new Bilhete(0, status, lugar, passageiro, voo);
+        
+        // Inserir no banco
+        int idBilhete = this.BilheteDAO.inserir(bilhete);
+        
+        if (idBilhete > 0) {
+            return "Bilhete criado com sucesso! ID: " + idBilhete;
+        } else {
+            return "Erro ao criar bilhete.";
+        }
+
+    } catch (NumberFormatException e) {
+        return "Erro: IDs devem ser números.";
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "Erro ao criar bilhete: " + e.getMessage();
+    }
+}
+
+// Métodos auxiliares para buscar por ID
+private Passageiro buscarPassageiroPorId(int id) throws Exception {
+    List<Passageiro> passageiros = this.passageiroDao.listar();
+    return passageiros.stream()
+        .filter(p -> p.getIdPessoa() == id)
+        .findFirst()
+        .orElse(null);
+}
+
+private Voo buscarVooPorId(int id) throws Exception {
+    List<Voo> voos = this.vooDao.listar();
+    return voos.stream()
+        .filter(v -> v.getIdVoo() == id)
+        .findFirst()
+        .orElse(null);
+}
+
+public List<Bilhete> listarBilhetes() {
+    try {
+        return this.BilheteDAO.listar();
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ArrayList<>();
+    }
+}
+    
+    
+    
+    
  //Métodos de Listar
     
     public List<Voo> listarVoos(){

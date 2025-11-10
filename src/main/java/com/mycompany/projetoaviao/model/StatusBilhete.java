@@ -9,5 +9,5 @@ package com.mycompany.projetoaviao.model;
  * @author manoeltelesps
  */
 public enum StatusBilhete {
-    RESERVADO, PAGO, CANCELADO, EMBARCADO
+    ATIVO, DESATIVADO
 }

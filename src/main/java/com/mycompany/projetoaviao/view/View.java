@@ -14,6 +14,8 @@ import com.mycompany.projetoaviao.controller.Controller;
 import com.mycompany.projetoaviao.model.Funcionario;
 import com.mycompany.projetoaviao.model.Passageiro;
 import com.mycompany.projetoaviao.model.Voo;
+import com.mycompany.projetoaviao.model.Bilhete;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,6 +35,7 @@ public class View {
             System.out.println("1. Passageiros");
             System.out.println("2. Funcionários");
             System.out.println("3. Voos");
+            System.out.println("4. Bilhetes");
             System.out.println("0. Sair");
             System.out.print("Opção: ");
             String op = scan.nextLine();
@@ -41,6 +44,7 @@ public class View {
                 case "1" -> this.menuPassageiros();
                 case "2" -> this.menuFuncionarios();
                 case "3" -> this.menuVoos();
+                case "4" -> this.menuBilhetes();
                 case "0" -> { System.out.println("Saindo..."); return; }
                 default -> System.out.println("Opção inválida.");
             }
@@ -95,39 +99,6 @@ public class View {
         }
     }
     
-//    private static void cadastrarFuncionario() {
-//        System.out.print("Nome do funcionário: ");
-//        String nome = scan.nextLine();
-//        Funcionario f = Controller.criarFuncionario(nome);
-//        System.out.println("Funcionário criado: ID " + f.id + " | " + f.nome);
-//    }
-//    
-//    private static void listarFuncionarios() {
-//        List<Funcionario> lista = Controller.listarFuncionarios();
-//        if (lista.isEmpty()) {
-//            System.out.println("Nenhum funcionário cadastrado.");
-//            return;
-//        }
-//        System.out.println("ID | Nome");
-//        for (Funcionario f : lista) {
-//            System.out.println(f.id + "  | " + f.nome);
-//        }
-//    }
-//    
-//    private static void adicionarFuncionarioAoVoo() {
-//        listarFuncionarios();
-//        System.out.print("ID do funcionário: ");
-//        int idFuncionario = lerInt();
-//
-//        listarVoosSimples();
-//        System.out.print("ID do voo: ");
-//        int idVoo = lerInt();
-//
-//        boolean ok = Controller.adicionarFuncionarioAoVoo(idFuncionario, idVoo);
-//        System.out.println(ok ? "Funcionário adicionado ao voo."
-//                              : "IDs inválidos (funcionário/voo).");
-//    }
-    
     
     // ===== Funcionários =====
     private void menuFuncionarios() {
@@ -181,20 +152,6 @@ public class View {
         }
     }
 
-//    private static void adicionarFuncionarioAoVoo() {
-//        listarFuncionarios();
-//        System.out.print("ID do funcionário: ");
-//        int idFuncionario = lerInt();
-//
-//        listarVoos();
-//        System.out.print("ID do voo: ");
-//        int idVoo = lerInt();
-//
-//        boolean ok = Controller.adicionarFuncionarioAoVoo(idFuncionario, idVoo);
-//        System.out.println(ok ? "Funcionário adicionado ao voo."
-//                              : "IDs inválidos (funcionário/voo).");
-//    }
-    
     // ===== Voos =====
     private void menuVoos() {
         System.out.println("\n=== VOOS ===");
@@ -238,4 +195,63 @@ public class View {
                     + " | " + v.getIdAeronave() + " | " + v.getIdRota());
         }
     }
+    
+    //===== BILHETES =======
+
+    private void menuBilhetes() {
+        System.out.println("\n=== BILHETES ===");
+        System.out.println("1. Criar bilhete (ligar passageiro a voo)");
+        System.out.println("2. Listar bilhetes");
+        System.out.println("0. Voltar");
+        System.out.print("Opção: ");
+        String op = scan.nextLine();
+
+        switch (op) {
+            case "1" -> this.criarBilhete();
+            case "2" -> this.listarBilhetes();
+            case "0" -> { return; }
+            default -> System.out.println("Opção inválida.");
+        }
+    }
+
+    private void criarBilhete() {
+        // Listar passageiros disponíveis
+        System.out.println("\n--- Passageiros disponíveis ---");
+        this.listarPassageiros();
+        System.out.print("\nID do Passageiro: ");
+        String idPassageiro = scan.nextLine();
+
+        // Listar voos disponíveis
+        System.out.println("\n--- Voos disponíveis ---");
+        this.listarVoos();
+        System.out.print("\nID do Voo: ");
+        String idVoo = scan.nextLine();
+
+        System.out.print("Assento (ex: 12): ");
+        String lugar = scan.nextLine();
+
+        System.out.print("Status (ATIVO/DESATIVADO): ");
+        String status = scan.nextLine();
+
+        String resp = this.controller.criarBilhete(idPassageiro, idVoo, lugar, status);
+        System.out.println(resp);
+    }
+
+    private void listarBilhetes() {
+        List<Bilhete> lista = this.controller.listarBilhetes();
+        if (lista.isEmpty()) {
+            System.out.println("Nenhum bilhete cadastrado.");
+            return;
+        }
+        System.out.println("ID | Passageiro | Voo | Assento | Status");
+        for (Bilhete b : lista) {
+            System.out.println(b.getIdBilhete() + " | " + 
+                              b.getPassageiro().getNome() + " | " + 
+                              b.getVoo().getIdVoo() + " | " + 
+                              b.getLugar() + " | " + 
+                              b.getStatusBilhete());
+        }
+    }
+    
+    
 }
