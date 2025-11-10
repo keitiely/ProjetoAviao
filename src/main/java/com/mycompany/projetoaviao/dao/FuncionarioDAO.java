@@ -36,9 +36,7 @@ public class FuncionarioDAO {
 
     public List<Funcionario> listar() throws Exception {
         List<Funcionario> list = new ArrayList<>();
-        String sql = "SELECT p.*, f.idFuncionario, f.matricula, f.cargo, f.idFuncionario_Aeroporto" +  
-                      "FROM Pessoa p " +
-                      "INNER JOIN Funcionario f ON p.idPessoa = f.idFuncionario";
+        String sql = "SELECT f.idFuncionario, f.matricula, f.cargo, f.idFuncionario_Aeroporto FROM Funcionario f";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

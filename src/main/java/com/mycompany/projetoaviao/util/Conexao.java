@@ -13,7 +13,7 @@ public class Conexao {
         try {
             String url = "jdbc:mysql://localhost:3306/CompanhiaArea";
             String user = "root";
-            String pass = "estrangeira";
+            String pass = "Kr36243918@";
 
             return DriverManager.getConnection(url, user, pass);
 

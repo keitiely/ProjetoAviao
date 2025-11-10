@@ -38,9 +38,7 @@ public class PassageiroDAO {
 
     public List<Passageiro> listar() throws Exception {
         List<Passageiro> list = new ArrayList<>();
-        String sql = "SELECT p.*, ps.idPassageiro, ps.nacionalidade, ps.dataNascimento" + 
-                      "FROM Pessoa p " + 
-                      "INNER JOIN Passageiro ps ON p.idPessoa = ps.idPassageiro";
+        String sql = "SELECT p.idPassageiro, p.nacionalidade, p.dataNascimento FROM Passageiro p";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {

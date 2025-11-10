@@ -23,11 +23,6 @@ public abstract class Pessoa {
         this.telefone = telefone;
     }
     
-     public Pessoa(){
-        // Construtor vazio, necessário para o Controller
-        // e para o DAO poderem criar o objeto.
-    }
-    
     /**
      * @return the idPessoa
      */

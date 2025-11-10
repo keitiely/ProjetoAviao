@@ -17,11 +17,6 @@ public class Passageiro extends Pessoa {
         this.nacionalidade = nacionalidade;
         this.dataNascimento = dataNascimento;
     }
-    
-    public Passageiro(){
-        // Construtor vazio, necessário para o Controller
-        // e para o DAO poderem criar o objeto.
-    }
 
     /**
      * @return the nacionalidade

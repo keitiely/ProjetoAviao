@@ -39,7 +39,7 @@ public class Controller {
         this.passageiroDao = new PassageiroDAO();
         this.pessoaDao = new PessoaDAO();
         this.vooDao = new VooDAO(); 
-    } 
+    }
 
  //Métodos de Listar
     
@@ -103,12 +103,8 @@ public class Controller {
             int idAeronave = Integer.parseInt(idAeronaveStr);
             int idRota = Integer.parseInt(idRotaStr);
 
-            // Criando a model
-            Voo novoVoo = new Voo(); 
-            novoVoo.setIdVoo(idVoo);
-            novoVoo.setDuracaoPrevista(duracaoPrevistaStr); // Passamos a String direto!
-            novoVoo.setIdAeronave(idAeronave);
-            novoVoo.setIdRota(idRota);
+            // Criando a model conforme construtor existente
+            Voo novoVoo = new Voo(idVoo, duracaoPrevistaStr, idAeronave, idRota);
             
             // chamada ao Dao
             this.vooDao.inserir(novoVoo);
@@ -133,18 +129,11 @@ public class Controller {
             }
             int idAeroporto = Integer.parseInt(idAeroportoStr);
 
-            // Criando o model Funcionario
-            Funcionario funcionario = new Funcionario();
-            //dados pessoa
-            funcionario.setNome(nome);
-            funcionario.setDocumento(documento);
-            funcionario.setEndereco(endereco);
-            funcionario.setTelefone(telefone);
-
-            //dados funcionario
-            funcionario.setMatricula(matricula);
-            funcionario.setCargo(cargo);
-            funcionario.setIdAeroporto(idAeroporto);
+            // Criando o model Funcionario conforme construtor existente (idPessoa = 0 para novo registro)
+            Funcionario funcionario = new Funcionario(
+                0, nome, documento, endereco, telefone,
+                matricula, cargo, idAeroporto
+            );
             
             // Chamada ao DAO (que insere Funcionario)
             this.funcionarioDao.inserir(funcionario, funcionario);
@@ -171,20 +160,14 @@ public class Controller {
             // Crie o "tradutor" para o formato DD/MM/YYYY
             DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-            // Usa o "tradutor" para converter a String
+            // Usa o "tradutor" para converter a String (validação)
              LocalDate dataNascimento = LocalDate.parse(dataNascimentoStr, formatador);
 
-             // Criando o model Passageiro
-            Passageiro passageiro = new Passageiro();
-            //dados pessoa
-            passageiro.setNome(nome);
-            passageiro.setDocumento(documento);
-            passageiro.setEndereco(endereco);
-            passageiro.setTelefone(telefone);
-
-           //dados passageiro
-            passageiro.setNacionalidade(nacionalidade);
-            passageiro.setDataNascimento(dataNascimentoStr);
+             // Criando o model Passageiro conforme construtor existente (idPessoa = 0)
+            Passageiro passageiro = new Passageiro(
+                0, nome, documento, endereco, telefone,
+                nacionalidade, dataNascimentoStr
+            );
 
             // Chamada ao DAO (que insere Passageiro)
             this.passageiroDao.inserir(passageiro, passageiro);

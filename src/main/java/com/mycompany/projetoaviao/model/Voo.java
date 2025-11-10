@@ -20,11 +20,6 @@ public class Voo {
         this.idAeronave = idAeronave;
         this.idRota = idRota;
     }
-    
-    public Voo(){
-        // Construtor vazio, necessário para o Controller
-        // e para o DAO poderem criar o objeto.
-    }
 
     /**
      * @return the idVoo
@@ -78,8 +73,7 @@ public class Voo {
     /**
      * @param rota the rota to set
      */
-    public void setIdRota(int idRota) {
+    public void setRota(int idRota) {
         this.idRota = idRota;
     }
-    
 }
