@@ -77,5 +77,34 @@ public class BilheteDAO {
         }
         return list;
     }
+    
+    public boolean atualizar(Bilhete bilhete) throws Exception {
+        String sql = "UPDATE Bilhete SET statusBilhete = ?, lugar = ?, idPassageiro = ?, idVoo = ? WHERE idBilhete = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, bilhete.getStatusBilhete().name());
+            stmt.setString(2, bilhete.getLugar());
+            stmt.setInt(3, bilhete.getPassageiro().getIdPessoa());
+            stmt.setInt(4, bilhete.getVoo().getIdVoo());
+            stmt.setInt(5, bilhete.getIdBilhete());
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
+    public boolean deletar(int idBilhete) throws Exception {
+        String sql = "DELETE FROM Bilhete WHERE idBilhete = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idBilhete);
+            
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
 
 }

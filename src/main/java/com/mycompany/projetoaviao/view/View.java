@@ -92,9 +92,9 @@ public class View {
             System.out.println("Nenhum passageiro cadastrado.");
             return;
         }
-        System.out.println("Nome | Documento | Telefone | Nacionalidade | Data Nasc.");
+        System.out.println("ID | Nome | Documento | Telefone | Nacionalidade");
         for (Passageiro p : lista) {
-            System.out.println(p.getNome() + " | " + p.getDocumento() + " | " + p.getTelefone()
+            System.out.println(p.getIdPessoa() + "|" + p.getNome() + " | " + p.getDocumento() + " | " + p.getTelefone()
                     + " | " + p.getNacionalidade());
         }
     }
@@ -157,6 +157,9 @@ public class View {
         System.out.println("\n=== VOOS ===");
         System.out.println("1. Cadastrar voo");
         System.out.println("2. Listar voos");
+        System.out.println("3. Atualizar vooo");
+        System.out.println("4. Deletar voo");
+
         System.out.println("0. Voltar");
         System.out.print("Opção: ");
         String op = scan.nextLine();
@@ -164,6 +167,8 @@ public class View {
         switch (op) {
             case "1" -> this.cadastrarVoo();
             case "2" -> this.listarVoos();
+            case "3" -> this.atualizarVoo();
+            case "4" -> this.deletarVoo();
             case "0" -> { return; }
             default -> System.out.println("Opção inválida.");
         }
@@ -196,12 +201,56 @@ public class View {
         }
     }
     
+        // ===== MÉTODOS DE VOO =====
+
+    private void atualizarVoo() {
+        // Listar voos disponíveis
+        System.out.println("\n--- Voos disponíveis ---");
+        this.listarVoos();
+
+        System.out.print("\nID do Voo a atualizar: ");
+        String idVoo = scan.nextLine();
+        System.out.print("Nova duração prevista (HH:MM:SS): ");
+        String duracaoPrevista = scan.nextLine();
+        System.out.print("Novo ID da Aeronave: ");
+        String idAeronave = scan.nextLine();
+        System.out.print("Novo ID da Rota: ");
+        String idRota = scan.nextLine();
+
+        String resp = this.controller.atualizarVoo(idVoo, duracaoPrevista, idAeronave, idRota);
+        System.out.println(resp);
+    }
+
+    private void deletarVoo() {
+        // Listar voos disponíveis
+        System.out.println("\n--- Voos disponíveis ---");
+        this.listarVoos();
+
+        System.out.print("\nID do Voo a deletar: ");
+        String idVoo = scan.nextLine();
+
+        // Confirmação
+        System.out.print("Tem certeza que deseja deletar este voo? (s/n): ");
+        String confirmacao = scan.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("s")) {
+            String resp = this.controller.deletarVoo(idVoo);
+            System.out.println(resp);
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+    }
+
+
+
     //===== BILHETES =======
 
     private void menuBilhetes() {
         System.out.println("\n=== BILHETES ===");
         System.out.println("1. Criar bilhete (ligar passageiro a voo)");
         System.out.println("2. Listar bilhetes");
+        System.out.println("3. Atualizar bilhete");
+        System.out.println("4. Deletar bilhete");
         System.out.println("0. Voltar");
         System.out.print("Opção: ");
         String op = scan.nextLine();
@@ -209,6 +258,8 @@ public class View {
         switch (op) {
             case "1" -> this.criarBilhete();
             case "2" -> this.listarBilhetes();
+            case "3" -> this.atualizarBilhete();
+            case "4" -> this.deletarBilhete();
             case "0" -> { return; }
             default -> System.out.println("Opção inválida.");
         }
@@ -250,6 +301,58 @@ public class View {
                               b.getVoo().getIdVoo() + " | " + 
                               b.getLugar() + " | " + 
                               b.getStatusBilhete());
+        }
+    }
+    
+        // ===== MÉTODOS DE BILHETE =====
+
+    private void atualizarBilhete() {
+        // Listar bilhetes disponíveis
+        System.out.println("\n--- Bilhetes disponíveis ---");
+        this.listarBilhetes();
+
+        System.out.print("\nID do Bilhete a atualizar: ");
+        String idBilhete = scan.nextLine();
+
+        // Listar passageiros disponíveis
+        System.out.println("\n--- Passageiros disponíveis ---");
+        this.listarPassageiros();
+        System.out.print("ID do Passageiro: ");
+        String idPassageiro = scan.nextLine();
+
+        // Listar voos disponíveis
+        System.out.println("\n--- Voos disponíveis ---");
+        this.listarVoos();
+        System.out.print("ID do Voo: ");
+        String idVoo = scan.nextLine();
+
+        System.out.print("Assento (ex: 12): ");
+        String lugar = scan.nextLine();
+
+        System.out.print("Status (ATIVO/DESATIVADO): ");
+        String status = scan.nextLine();
+
+        String resp = this.controller.atualizarBilhete(idBilhete, idPassageiro, idVoo, lugar, status);
+        System.out.println(resp);
+    }
+
+    private void deletarBilhete() {
+        // Listar bilhetes disponíveis
+        System.out.println("\n--- Bilhetes disponíveis ---");
+        this.listarBilhetes();
+
+        System.out.print("\nID do Bilhete a deletar: ");
+        String idBilhete = scan.nextLine();
+
+        // Confirmação
+        System.out.print("Tem certeza que deseja deletar este bilhete? (s/n): ");
+        String confirmacao = scan.nextLine();
+
+        if (confirmacao.equalsIgnoreCase("s")) {
+            String resp = this.controller.deletarBilhete(idBilhete);
+            System.out.println(resp);
+        } else {
+            System.out.println("Operação cancelada.");
         }
     }
     

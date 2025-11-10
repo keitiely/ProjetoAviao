@@ -47,4 +47,34 @@ public class VooDAO {
         }
         return list;
     }
+    
+    
+    public boolean atualizar(Voo v) throws Exception {
+        String sql = "UPDATE Voo SET duracaoPrevista = ?, idVoo_Rota = ?, idVoo_Aeronave = ? WHERE idVoo = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setTime(1, Time.valueOf(v.getDuracaoPrevista()));
+            stmt.setInt(2, v.getIdRota());
+            stmt.setInt(3, v.getIdAeronave());
+            stmt.setInt(4, v.getIdVoo());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+
+    public boolean deletar(int idVoo) throws Exception {
+        String sql = "DELETE FROM Voo WHERE idVoo = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idVoo);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+    
+    
 }

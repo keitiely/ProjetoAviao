@@ -46,6 +46,105 @@ public class Controller {
     }
 
     //Bilhete
+    
+    public String atualizarBilhete(String idBilheteStr, String idPassageiroStr, String idVooStr, 
+                                   String lugar, String statusStr) {
+        try {
+            // Validação
+            if (idBilheteStr.isEmpty() || idPassageiroStr.isEmpty() || idVooStr.isEmpty() 
+                || lugar.isEmpty() || statusStr.isEmpty()) {
+                return "Erro: Todos os campos são obrigatórios!";
+            }
+
+            // Conversão
+            int idBilhete = Integer.parseInt(idBilheteStr);
+            int idPassageiro = Integer.parseInt(idPassageiroStr);
+            int idVoo = Integer.parseInt(idVooStr);
+
+            // Validação do status
+            StatusBilhete status;
+            try {
+                status = StatusBilhete.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                return "Erro: Status inválido. Use: RESERVADO, PAGO, CANCELADO ou EMBARCADO";
+            }
+
+            // Buscar passageiro e voo
+            Passageiro passageiro = buscarPassageiroPorId(idPassageiro);
+            if (passageiro == null) {
+                return "Erro: Passageiro não encontrado!";
+            }
+
+            Voo voo = buscarVooPorId(idVoo);
+            if (voo == null) {
+                return "Erro: Voo não encontrado!";
+            }
+
+            // Verificar se o bilhete existe (opcional, mas recomendado)
+            List<Bilhete> bilhetes = this.BilheteDAO.listar();
+            boolean bilheteExiste = bilhetes.stream()
+                .anyMatch(b -> b.getIdBilhete() == idBilhete);
+
+            if (!bilheteExiste) {
+                return "Erro: Bilhete não encontrado!";
+            }
+
+            // Criar objeto Bilhete atualizado
+            Bilhete bilheteAtualizado = new Bilhete(idBilhete, status, lugar, passageiro, voo);
+
+            // Atualizar no banco
+            boolean sucesso = this.BilheteDAO.atualizar(bilheteAtualizado);
+
+            if (sucesso) {
+                return "Bilhete atualizado com sucesso!";
+            } else {
+                return "Erro: Não foi possível atualizar o bilhete.";
+            }
+
+        } catch (NumberFormatException e) {
+            return "Erro: IDs devem ser números.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao atualizar bilhete: " + e.getMessage();
+        }
+    }
+
+    public String deletarBilhete(String idBilheteStr) {
+        try {
+            // Validação
+            if (idBilheteStr.isEmpty()) {
+                return "Erro: ID do Bilhete é obrigatório!";
+            }
+
+            // Conversão
+            int idBilhete = Integer.parseInt(idBilheteStr);
+
+            // Verificar se o bilhete existe (opcional, mas recomendado)
+            List<Bilhete> bilhetes = this.BilheteDAO.listar();
+            boolean bilheteExiste = bilhetes.stream()
+                .anyMatch(b -> b.getIdBilhete() == idBilhete);
+
+            if (!bilheteExiste) {
+                return "Erro: Bilhete não encontrado!";
+            }
+
+            // Deletar do banco
+            boolean sucesso = this.BilheteDAO.deletar(idBilhete);
+
+            if (sucesso) {
+                return "Bilhete deletado com sucesso!";
+            } else {
+                return "Erro: Não foi possível deletar o bilhete.";
+            }
+
+        } catch (NumberFormatException e) {
+            return "Erro: ID do Bilhete deve ser um número.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao deletar bilhete: " + e.getMessage();
+        }
+    }
+    
     public String criarBilhete(String idPassageiroStr, String idVooStr, String lugar, String statusStr) {
     try {
         // Validação
@@ -96,31 +195,107 @@ public class Controller {
     }
 }
 
-// Métodos auxiliares para buscar por ID
-private Passageiro buscarPassageiroPorId(int id) throws Exception {
-    List<Passageiro> passageiros = this.passageiroDao.listar();
-    return passageiros.stream()
-        .filter(p -> p.getIdPessoa() == id)
-        .findFirst()
-        .orElse(null);
-}
-
-private Voo buscarVooPorId(int id) throws Exception {
-    List<Voo> voos = this.vooDao.listar();
-    return voos.stream()
-        .filter(v -> v.getIdVoo() == id)
-        .findFirst()
-        .orElse(null);
-}
-
-public List<Bilhete> listarBilhetes() {
-    try {
-        return this.BilheteDAO.listar();
-    } catch (Exception e) {
-        e.printStackTrace();
-        return new ArrayList<>();
+    // Métodos auxiliares para buscar por ID
+    private Passageiro buscarPassageiroPorId(int id) throws Exception {
+        List<Passageiro> passageiros = this.passageiroDao.listar();
+        return passageiros.stream()
+            .filter(p -> p.getIdPessoa() == id)
+            .findFirst()
+            .orElse(null);
     }
-}
+
+    private Voo buscarVooPorId(int id) throws Exception {
+        List<Voo> voos = this.vooDao.listar();
+        return voos.stream()
+            .filter(v -> v.getIdVoo() == id)
+            .findFirst()
+            .orElse(null);
+    }
+
+    public String atualizarVoo(String idVooStr, String duracaoPrevistaStr, String idAeronaveStr, String idRotaStr) {
+        try {
+            // Validação
+            if (idVooStr.isEmpty() || duracaoPrevistaStr.isEmpty() || idAeronaveStr.isEmpty() || idRotaStr.isEmpty()) {
+                return "Erro: Todos os campos do Voo são obrigatórios!";
+            }
+
+            // Validação do formato da duração
+            if (!duracaoPrevistaStr.matches("\\d{2}:\\d{2}:\\d{2}")) {
+                return "Erro: Formato da duração inválido. Use HH:MM:SS (ex: 02:30:00).";
+            }
+
+            // Conversão
+            int idVoo = Integer.parseInt(idVooStr);
+            int idAeronave = Integer.parseInt(idAeronaveStr);
+            int idRota = Integer.parseInt(idRotaStr);
+
+            // Verificar se o voo existe
+            Voo vooExistente = buscarVooPorId(idVoo);
+            if (vooExistente == null) {
+                return "Erro: Voo não encontrado!";
+            }
+
+            // Criar objeto Voo atualizado
+            Voo vooAtualizado = new Voo(idVoo, duracaoPrevistaStr, idAeronave, idRota);
+
+            // Atualizar no banco
+            boolean sucesso = this.vooDao.atualizar(vooAtualizado);
+
+            if (sucesso) {
+                return "Voo atualizado com sucesso!";
+            } else {
+                return "Erro: Não foi possível atualizar o voo.";
+            }
+
+        } catch (NumberFormatException e) {
+            return "Erro: Os campos de ID devem ser apenas números.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao atualizar Voo: " + e.getMessage();
+        }
+    }
+
+    public String deletarVoo(String idVooStr) {
+        try {
+            // Validação
+            if (idVooStr.isEmpty()) {
+                return "Erro: ID do Voo é obrigatório!";
+            }
+
+            // Conversão
+            int idVoo = Integer.parseInt(idVooStr);
+
+            // Verificar se o voo existe
+            Voo vooExistente = buscarVooPorId(idVoo);
+            if (vooExistente == null) {
+                return "Erro: Voo não encontrado!";
+            }
+
+            // Deletar do banco
+            boolean sucesso = this.vooDao.deletar(idVoo);
+
+            if (sucesso) {
+                return "Voo deletado com sucesso!";
+            } else {
+                return "Erro: Não foi possível deletar o voo.";
+            }
+
+        } catch (NumberFormatException e) {
+            return "Erro: ID do Voo deve ser um número.";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Erro ao deletar Voo: " + e.getMessage();
+        }
+    }
+
+    public List<Bilhete> listarBilhetes() {
+        try {
+            return this.BilheteDAO.listar();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
     
     
     
