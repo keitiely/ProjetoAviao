@@ -166,7 +166,7 @@ public class Controller {
              // Criando o model Passageiro conforme construtor existente (idPessoa = 0)
             Passageiro passageiro = new Passageiro(
                 0, nome, documento, endereco, telefone,
-                nacionalidade, dataNascimentoStr
+                nacionalidade, dataNascimento
             );
 
             // Chamada ao DAO (que insere Passageiro)

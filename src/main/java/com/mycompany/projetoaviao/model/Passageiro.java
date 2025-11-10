@@ -3,16 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.projetoaviao.model;
-
+import java.time.LocalDate;
 /**
  *
  * @author manoeltelesps
  */
 public class Passageiro extends Pessoa {
     private String nacionalidade;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
     
-    public Passageiro(int idPessoa, String nome, String documento, String endereco, String telefone, String nacionalidade, String dataNascimento) {
+    public Passageiro(int idPessoa, String nome, String documento, String endereco, String telefone, String nacionalidade, LocalDate dataNascimento) {
         super(idPessoa, nome, documento, endereco, telefone);
         this.nacionalidade = nacionalidade;
         this.dataNascimento = dataNascimento;
@@ -35,14 +35,14 @@ public class Passageiro extends Pessoa {
     /**
      * @return the dataNascimento
      */
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
     /**
      * @param dataNascimento the dataNascimento to set
      */
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 }

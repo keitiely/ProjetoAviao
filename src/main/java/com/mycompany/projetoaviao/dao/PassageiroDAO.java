@@ -38,7 +38,10 @@ public class PassageiroDAO {
 
     public List<Passageiro> listar() throws Exception {
         List<Passageiro> list = new ArrayList<>();
-        String sql = "SELECT p.idPassageiro, p.nacionalidade, p.dataNascimento FROM Passageiro p";
+        String sql = "SELECT pe.idPessoa, pe.nome, pe.documento, pe.endereco, pe.telefone, " +
+                     "p.nacionalidade, p.dataNascimento, " + 
+                     "FROM Passageiro p " +
+                      "JOIN Pessoa pe ON p.idPassageiro = pe.idPessoa";
         try (Connection conn = Conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -51,7 +54,7 @@ public class PassageiroDAO {
                         rs.getString("endereco"),
                         rs.getString("telefone"),
                         rs.getString("nacionalidade"),
-                        rs.getString("dataNascimento")
+                        rs.getLocalDate("dataNascimento")
                 );
                 list.add(pa);
             }
